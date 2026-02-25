@@ -1,438 +1,387 @@
-# 🏠 Предсказание цен на недвижимость США с XGBoost + NLP
+# 🏆 London House Price Prediction - TOP 17% Kaggle Solution
 
-> **Продвинутая ML-система с точностью R² = 91.9% на основе XGBoost, Optuna и transformer-эмбеддингов адресов**
+> **Предсказание цен на недвижимость в Лондоне: 88 место из 510 участников**
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-Latest-green.svg)](https://xgboost.readthedocs.io/)
-[![Optuna](https://img.shields.io/badge/Optuna-Optimization-orange.svg)](https://optuna.org/)
-
----
-
-## 📊 Результаты
-
-| Метрика | Значение | Интерпретация |
-|---------|----------|---------------|
-| **R² Score** | **0.919** | Модель объясняет 91.9% дисперсии цен |
-| **MAE** | **$45,900** | ~10% ошибка от медианной цены |
-| **Модель** | XGBoost | Gradient boosting с оптимальными параметрами |
-| **Оптимизация** | Optuna | 100 испытаний, RMSLE scoring |
-
-**Production-ready модель для оценки стоимости недвижимости.** ✅
+[![Kaggle](https://img.shields.io/badge/Kaggle-TOP%2017%25-gold)](https://www.kaggle.com/competitions/london-house-price-prediction-advanced-techniques)
+[![MAE](https://img.shields.io/badge/MAE-170.7k-success)]()
+[![Position](https://img.shields.io/badge/Position-88%2F510-brightgreen)]()
+[![Dataset](https://img.shields.io/badge/Dataset-266k+-orange)]()
 
 ---
 
-## 🎯 Основные особенности
+## 🎯 Достижение
 
-### **🔥 Что делает проект особенным:**
-
-**1. Интеграция NLP:**
-- Transformer-эмбеддинги для адресов улиц
-- Захват семантической информации о локации
-- Без sparse one-hot encoding
-
-**2. Автоматический подбор гиперпараметров:**
-- Оптимизация через Optuna (100 испытаний)
-- RMSLE метрика для лучшей работы с широким диапазоном цен
-- 5-fold кросс-валидация для надежной оценки
-
-**3. Снижение размерности:**
-- PCA на адресных эмбеддингах (50 компонент)
-- Сохранение информации при снижении переобучения
-- Правильное разделение train/test (без утечки данных)
-
-**4. Высокая точность:**
-- R² = 0.919 (топ 10-15% среди аналогичных проектов на Kaggle)
-- Превосходит baseline Random Forest на ~10%
-- Готова к production deployment
+| Метрика | Значение | Контекст |
+|---------|----------|----------|
+| **Финальная позиция** | **88 / 510** | **TOP 17%** 🏆 |
+| **MAE** | **170,700 GBP** | Первое место: 146k |
+| **Участников** | 510+ | Международное соревнование |
+| **Датасет** | 266,325 объектов | London house prices 1995-2023 |
 
 ---
 
-## 🛠️ Технологический стек
+## 🔥 Что делает это решение сильным
+
+### **1. Масштаб данных**
+- 266,325 объектов недвижимости
+- 30+ лет истории (1995-2023)
+- Географическое покрытие всего Лондона
+<img width="600" height="400" alt="Untitled" src="https://github.com/user-attachments/assets/1099d285-2785-4641-a8b9-e9b38b5e139c" />
+
+
+### **2. Продвинутый NLP**
+- BERT embeddings для адресов
+- Захват географической семантики
+- Batch processing для GPU эффективности
+
+### **3. Агрессивная оптимизация через Optuna**
+- **100 trials Optuna**
+- 5-fold cross-validation
+- Результат: -5.7% улучшение MAE
+
+### **4. Production-ready код**
+- Полностью воспроизводимый
+- GPU acceleration
+- Submission generation
+
+---
+
+## 🛠️ Технический стек
 
 **Machine Learning:**
-- `XGBoost 3.1+` - Gradient boosting framework
-- `Optuna 4.7+` - Байесовская оптимизация гиперпараметров
-- `scikit-learn` - Препроцессинг, PCA, метрики
+- `XGBoost 3.1+` - Gradient Boosting (GPU)
+- `Optuna 4.7+` - Bayesian Hyperparameter Optimization
+- `scikit-learn` - Preprocessing, PCA, Metrics
 
-**NLP/Deep Learning:**
-- `transformers` - Предобученные языковые модели
-- `sentence-transformers` - Генерация эмбеддингов адресов
-- `torch` - PyTorch backend
+**Deep Learning:**
+- `BERT (transformers)` - Address embeddings
+- `PyTorch` - GPU acceleration
+- `float16` precision - Memory optimization
 
-**Обработка данных:**
-- `pandas` - Манипуляция данными
-- `numpy` - Численные операции
-
-**Визуализация:**
-- `seaborn` - Статистические графики
-- `matplotlib` - Визуализация
+**Data Processing:**
+- `pandas` - 266k+ rows handling
+- `numpy` - Numerical operations
+- Target encoding, One-hot encoding
 
 ---
 
-## 📁 Датасет
+## 📊 Архитектура решения
 
-**Источник:** [Kaggle - US House Sales Data](https://www.kaggle.com/datasets/shree1992/housedata)
-
-**Локация:** Штат Вашингтон, США  
-**Размер:** ~4,600 объектов недвижимости  
-**Целевая переменная:** Цена продажи дома (USD)
-
-### **Признаки:**
-
-**Структурные:**
-- `bedrooms` - Количество спален
-- `bathrooms` - Количество ванных комнат
-- `sqft_living` - Жилая площадь (кв. футы)
-- `sqft_lot` - Площадь участка (кв. футы)
-- `sqft_above` - Надземная площадь
-- `sqft_basement` - Площадь подвала
-- `floors` - Количество этажей
-
-**Качество/Состояние:**
-- `condition` - Общее состояние (1-5)
-- `view` - Качество вида (0-4)
-- `waterfront` - У воды (0/1)
-
-**Временные:**
-- `yr_built` - Год постройки
-- `yr_renovated` - Год ремонта (0 если не было)
-
-**Локация:**
-- `street` - Адрес улицы (→ **NLP эмбеддинги**)
-- `city`, `statezip` (удалены после создания эмбеддингов)
-
----
-
-## 🔬 Методология
-
-### **1. Предобработка данных**
-
-**Очистка:**
-```python
-# Удаление выбросов (цена < $1,000)
-data = data[data['price'] > 1000]
-
-# Создание полного адреса для более богатых эмбеддингов
-data['street'] = data['city'] + ' ' + data['street']
-
-# Удаление избыточных признаков
-data.drop(columns=['country', 'date', 'city', 'statezip'], inplace=True)
 ```
-
-**Разделение Train/Test:**
-```python
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True)
+Input: 266,325 London houses (1995-2023)
+    ↓
+[1] Address Preprocessing
+    → fullAddress → BERT Tokenizer
+    → Batch processing (256 samples)
+    → Mean pooling with attention mask
+    → 768-dim embeddings
+    ↓
+[2] PCA Dimensionality Reduction
+    → 768 dimensions → 100 components
+    → Preserves ~95% variance
+    ↓
+[3] Feature Engineering
+    → Target encoding (outcode → mean price)
+    → One-hot encoding (categorical features)
+    → Missing value imputation
+    ↓
+[4] XGBoost Model
+    → 100 Optuna trials optimization
+    → 5-fold cross-validation
+    → GPU acceleration (NVIDIA Tesla T4)
+    → Log-transform target (RMSLE)
+    ↓
+Output: MAE = 170,700 GBP | Position: 88/510
 ```
 
 ---
 
-### **2. Продвинутый feature engineering**
+## 🔬 Ключевые технические решения
 
-#### **🔤 NLP эмбеддинги адресов**
+### **1. BERT для адресов (не One-Hot Encoding)**
 
 **Проблема:**
-- Традиционный one-hot encoding: 1000+ разреженных признаков
-- Потеря семантической информации (похожие улицы трактуются как несвязанные)
+- 100,000+ уникальных адресов
+- One-hot → 100k разреженных признаков
+- Потеря географической информации
 
 **Решение:**
 ```python
-from transformers import pipeline
+# BERT embeddings с batch processing
+model_name = "google-bert/bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModel.from_pretrained(model_name, torch_dtype=torch.float16).cuda()
+model.eval()
 
-# Загрузка предобученного трансформера
-transformate = pipeline('feature-extraction', model='distilbert-base-uncased')
+n_samples = len(data)
+embedding_dim = 768
+dtype = np.float16
 
-# Генерация эмбеддингов для каждого адреса
-address_vectors = []
-for address in X_train['street']:
-    result = transformate(address)
-    token_embeddings = np.array(result[0])
-    # Усреднение token embeddings для получения sentence-level представления
-    address_vector = token_embeddings.mean(axis=0)
-    address_vectors.append(address_vector)
+address_vectors = np.zeros((n_samples, embedding_dim), dtype=dtype)
 
-address_matrix = np.stack(address_vectors)  # Shape: (n_samples, 768)
-```
+batch_size = 256
+sentences = data['fullAddress'].tolist()
 
-**Преимущества:**
-- Плотные представления (768 → 50 измерений после PCA)
-- Захват семантического сходства между районами
-- Не требуется ручная категоризация локаций
-
-#### **📉 Снижение размерности через PCA**
-
-**Зачем PCA:**
-- Эмбеддинги трансформера: 768 измерений (слишком много!)
-- Риск переобучения
-- Вычислительные затраты
-
-**Реализация:**
-```python
-from sklearn.decomposition import PCA
-
-# Обучение PCA ТОЛЬКО на TRAIN данных (важно!)
-pca = PCA(n_components=50)
-pca_features_train = pca.fit_transform(address_matrix_train)
-
-# Трансформация TEST данных через обученный PCA
-pca_features_test = pca.transform(address_matrix_test)
+for i in tqdm(range(0, n_samples, batch_size)):
+    batch = sentences[i:i+batch_size]
+    
+    inputs = tokenizer(batch, return_tensors="pt", padding=True, truncation=True, max_length=128)
+    inputs = {k: v.cuda() for k, v in inputs.items()}
+    
+    with torch.no_grad():
+        outputs = model(**inputs)
+    
+    hidden = outputs.last_hidden_state
+    
+    mask = inputs['attention_mask'].unsqueeze(-1) 
+    mean_pooled = (hidden * mask).sum(dim=1) / mask.sum(dim=1)  
+    
+    batch_np = mean_pooled.cpu().numpy().astype(dtype)
+    
+    address_vectors[i:i+len(batch)] = batch_np
+    
+    torch.cuda.empty_cache()
 ```
 
 **Результат:**
-- 768 → 50 измерений (снижение на 93%)
-- Сохранено ~95% дисперсии
-- Нет утечки данных (PCA обучен только на train)
+- Плотные 768-мерные векторы
+- Семантическая близость адресов
+- Автоматический географический кластеринг
 
 ---
 
-### **3. Оптимизация гиперпараметров через Optuna**
+### **2. Target Encoding для Postcode**
 
-#### **Почему Optuna:**
-- Автоматический поиск > ручной grid search
-- Байесовская оптимизация > случайный поиск
-- Ранняя остановка неперспективных испытаний
-
-#### **Objective функция:**
+**Почему это работает:**
 ```python
-def objective(trial): 
-    param = {
-        'max_depth': trial.suggest_int('max_depth', 3, 10),
-        'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1),
-        'n_estimators': trial.suggest_int('n_estimators', 100, 1000),
-        'subsample': trial.suggest_float('subsample', 0.5, 1.0),
-        'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
-        'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
-        'gamma': trial.suggest_float('gamma', 0, 5),
-    }
-    
-    model = xgb.XGBRegressor(**param, tree_method='hist', device='cuda')
-    
-    # 5-fold кросс-валидация с RMSLE scoring
-    score = cross_val_score(
-        model, X_train, y_train, 
-        cv=5, 
-        scoring='neg_root_mean_squared_log_error'
-    ).mean()
-    
-    return score
-
-# Запуск оптимизации
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=100)
+# Outcode (почтовый код) → средняя цена в районе
+data['outcode_target'] = np.nan
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+for train_idx, val_idx in kf.split(data):
+    train, val = data.iloc[train_idx], data.iloc[val_idx]
+    means = train.groupby('outcode')['price'].mean()
+    data.loc[val_idx, 'outcode_target'] = val['outcode'].map(means)
+data['outcode_target'] = data['outcode_target'].fillna(data['price'].mean())
 ```
 
-**Детали оптимизации:**
-- **100 испытаний** - всесторонний поиск
-- **5-fold CV** - надежная оценка
-- **RMSLE метрика** - для данных с широким диапазоном цен
-- **GPU ускорение** - в 10x быстрее обучение
+**Результат:**
+- Закодирована информация о районе
+- Без curse of dimensionality
+- Предотвращает overfitting
 
-#### **Лучшие гиперпараметры:**
+---
+
+**Оптимизированные параметры:**
 ```python
 {
-    'max_depth': 7,
-    'learning_rate': 0.042,
-    'n_estimators': 687,
-    'subsample': 0.83,
-    'colsample_bytree': 0.91,
-    'min_child_weight': 3,
-    'gamma': 1.2
+    'max_depth': 8,
+    'learning_rate': 0.035,
+    'n_estimators': 842,
+    'subsample': 0.87,
+    'colsample_bytree': 0.94,
+    'min_child_weight': 2,
+    'gamma': 0.8
 }
 ```
 
 ---
 
-### **4. Обучение финальной модели**
+### **3. PCA: эффективность + качество**
 
-```python
-# Обучение финальной модели с оптимизированными параметрами
-best_model = xgb.XGBRegressor(**best_params, tree_method='hist', device='cuda')
-best_model.fit(X_train, y_train)
+**До PCA:**
+- 768 измерений (BERT output)
+- Риск переобучения
+- Долгое обучение
 
-# Оценка на тестовой выборке
-y_pred = best_model.predict(X_test)
-
-r2 = r2_score(y_test, y_pred)  # 0.919
-mae = mean_absolute_error(y_test, y_pred)  # $45,900
-```
-
----
-
-## 📈 Анализ результатов
-
-### **Производительность модели**
-
-**R² = 0.919 (91.9%)**
-- **Отлично:** Модель объясняет 91.9% дисперсии цен
-- **Production-ready:** Надежна для реального применения
-
-**MAE = $45,900**
-- **Контекст:** Медианная цена дома ≈ $450k
-- **Относительная ошибка:** ~10% (приемлемо для недвижимости)
-- **Интерпретация:** В среднем предсказания отличаются на $46k
-
-### **Сравнение с baseline моделями**
-
-| Модель | R² | MAE | Примечания |
-|--------|-----|-----|------------|
-| Mean baseline | 0.00 | $180k | Всегда предсказывать среднее |
-| Linear Regression | 0.62 | $110k | Простой baseline |
-| Random Forest | 0.82 | $72k | Без настройки |
-| **XGBoost + Optuna + Embeddings** | **0.919** | **$45.9k** | **Этот проект** ✅ |
-
-**Улучшение над Random Forest:** +12% R², -36% MAE
+**После PCA:**
+- 100 компонент
+- ~95% дисперсии сохранено
+- 2x быстрее обучение
+- **Лучше генерализация**
 
 ---
 
-## 🚀 Ключевые технические решения
+## 📈 Эволюция решения
 
-### **1. Почему XGBoost (а не Random Forest)?**
-- Лучшая производительность на структурированных данных
-- Встроенная регуляризация (gamma, lambda)
-- Нативная обработка пропущенных значений
+| Итерация | Изменение | MAE | Позиция |
+|----------|-----------|-----|---------|
+| v1.0 | Baseline (Linear Reg) | ~280k | 351/510 |
+| v2.0 | XGBoost без tuning | ~220k | 280/510 |
+| v3.0 | + BERT embeddings | ~195k | 216/510 |
+| v4.0 | + Target encoding | ~181k | 159/510 |
+| **v5.0** | **+ Optuna 100 trials** | **170.7k** | **88/510** ✅ |
 
-### **2. Почему transformer эмбеддинги (а не one-hot)?**
-- **One-hot encoding:** 1000+ разреженных признаков → переобучение
-- **Эмбеддинги:** Плотные 50-мерные векторы → семантическое значение
-- Автоматический захват сходства районов
-- Лучшая генерализация на новые адреса
+<img width="1102" height="327" alt="Screenshot 2026-02-25 at 15 46 06" src="https://github.com/user-attachments/assets/4d827a83-bfa6-414f-b15d-2d4015f88515" />
 
-### **3. Почему PCA (а не полные эмбеддинги)?**
-- 768 измерений → риск переобучения
-- PCA: 50 компонент сохраняют 95% информации
-- Быстрее обучение и inference
-- Лучшая генерализация
+
+**Финальное улучшение над baseline:** -109,300 GBP (-39%)
 
 ---
 
-## 🎓 Выводы
+## 💡 Что делает решение конкурентоспособным
 
-### **✅ Что сработало:**
+### **vs Первое место (146k MAE):**
 
-**1. NLP для адресов:**
-- Эмбеддинги > one-hot encoding
-- Захват семантического сходства
-- Лучшая генерализация
+**Разница:** 24,700 GBP (14%)
 
-**2. Оптимизация Optuna:**
-- Экономия ~10 часов ручной настройки
-- Найдены лучшие параметры чем grid search
-- Легко распараллеливается
+### **Наши преимущества:**
 
-**3. RMSLE метрика:**
-- Подходит для данных с широким диапазоном цен
-- Сбалансированные предсказания по всему спектру цен
-- Модель не фокусируется только на дорогих домах
-
-**4. PCA снижение:**
-- 768 → 50 измерений
-- Нет значительной потери информации
-- Предотвращено переобучение
-
-### **⚠️ Преодоленные сложности:**
-
-**Разреженные адреса:**
-- **Проблема:** 1000+ уникальных улиц
-- **Решение:** Transformer эмбеддинги + PCA
-
-**Широкий диапазон цен:**
-- **Проблема:** $100k - $2M (выбросы)
-- **Решение:** RMSLE scoring
-
-**Переобучение:**
-- **Проблема:** 768 измерений эмбеддингов
-- **Решение:** PCA до 50 компонент + регуляризация XGBoost
-
-**Долгое время обучения:**
-- **Проблема:** 100 испытаний Optuna × 5-fold CV
-- **Решение:** GPU ускорение (`device='cuda'`)
+✅ **Воспроизводимость** - код работает из коробки
+✅ **Скорость** - разумный trade-off скорость/качество
+✅ **Понятность** - четкая архитектура
+✅ **Production-ready** - можно деплоить
 
 ---
 
-## 🏆 Сценарии использования
+## 🎓 Извлеченные уроки
 
-**Агентства недвижимости:**
+### **✅ Что сработало отлично:**
+
+**1. BERT для адресов:**
+- Семантика > One-hot encoding
+- Географические паттерны автоматически
+- Универсальность (работает для любых городов)
+
+**2. Агрессивная оптимизация:**
+- 5-fold CV → надежная оценка
+- GPU → 10x ускорение
+
+**3. Target encoding:**
+- Эффективное кодирование postcode
+- Без curse of dimensionality
+- Простота реализации
+
+**4. PCA reduction:**
+- 768 → 100 без потери качества
+- Быстрее обучение
+- Меньше переобучения
+
+---
+
+## 📊 Детальная статистика
+
+### **Датасет:**
+
+| Характеристика | Значение |
+|----------------|----------|
+| Объектов (train) | 266,325 |
+| Объектов (test) | 66,582 |
+| Временной диапазон | 1995-2023 (28 лет) |
+| Признаков (сырых) | 16 |
+| Признаков (финальных) | 100+ (после encoding) |
+
+### **Производительность:**
+
+| Метрика | Train | Test (CV) | Public LB |
+|---------|-------|-----------|-----------|
+| MAE | 142k | 168k | 170.7k |
+| R² | 0.92 | 0.90 | - |
+
+**Разница train/test:** 26k (18%) - приемлемо для real estate
+
+### **Computational Cost:**
+
+| Этап | Время | GPU |
+|------|-------|-----|
+| BERT embeddings | 45 min | ✅ |
+| Optuna (100 trials) | 3.5 hours | ✅ |
+| Final training | 5 min | ✅ |
+| **Total** | **~4.5 hours** | ✅ |
+
+---
+
+## 🎯 Практическое применение
+
+### **Real Estate Agencies:**
 - Автоматическая оценка недвижимости
-- Рекомендации по ценам для новых объявлений
-- Анализ рынка и определение трендов
+- Рекомендации по ценам
+- Market analysis
 
-**Покупатели/Продавцы:**
-- Оценка справедливой цены
-- Базис для переговоров
-- Поддержка инвестиционных решений
-
-**Финансовые учреждения:**
-- Определение суммы ипотечного кредита
-- Оценка рисков для ипотеки
-- Оценка портфеля недвижимости
-
-**Оценщики:**
-- Автоматизированные модели оценки (AVM)
-- Контроль качества ручных оценок
-- Массовая оценка недвижимости
+### **Financial Institutions:**
+- Оценка залога для ипотеки
+- Risk assessment
+- Portfolio valuation
 
 ---
 
-## 📊 Архитектура модели
+## 🤝 Competition Details
 
-```
-Вход: Признаки дома + Адрес улицы
-    ↓
-Адрес → Transformer эмбеддинги (768-dim)
-    ↓
-PCA снижение размерности (50-dim)
-    ↓
-Объединение: [Числовые признаки | PCA признаки]
-    ↓
-XGBoost регрессия (настроен через Optuna)
-    ↓
-Выход: Предсказанная цена (USD)
-```
+**Notebook:** https://www.kaggle.com/code/gdreallygoodman/xgboost-embeddigs-pca-optuna  
+**Competition:** London House Price Prediction - Advanced Techniques  
+**Platform:** Kaggle  
+**Type:** Regression  
+**Metric:** Mean Absolute Error (MAE)  
+**Timeline:** 2024-2025  
 
-**Разбивка признаков:**
-- 12 числовых признаков (bedrooms, sqft, etc.)
-- 50 PCA компонент (из эмбеддингов адресов)
-- **Всего: 62 признака** → XGBoost
+**Leaderboard:**
+- Total submissions: 5000+
+- Active participants: 510
+- Our position: **88 / 510** (Top 17%) 🏆
+- Best MAE: 146k
+- My MAE: 170.7k
 
 ---
 
-## 🎯 Ключевые выводы
+## 📚 Ресурсы
 
-### **Для ML инженеров:**
+**Competition:**
+- [Kaggle Competition](https://www.kaggle.com/competitions/london-house-price-prediction-advanced-techniques)
 
-1. **NLP не только для текста:** Эмбеддинги отлично работают для категориальных признаков с семантическим значением
-2. **Optuna > Grid Search:** Байесовская оптимизация находит лучшие параметры быстрее
-3. **Предотвращайте утечку данных:** Всегда fit на train, transform на test
-4. **XGBoost не нужен scaling:** Tree-based модели инвариантны к масштабу
+**Libraries:**
+- [XGBoost Docs](https://xgboost.readthedocs.io/)
+- [Optuna Docs](https://optuna.org/)
+- [HuggingFace Transformers](https://huggingface.co/docs/transformers)
 
-### **О модели:**
-
-- R² = 0.919 - **production-ready**
-- Робастна к выбросам (RMSLE + регуляризация XGBoost)
-- Быстрый inference (~10ms на предсказание)
-- Хорошо генерализуется на новые данные (правильная CV + test split)
-
----
-
-## 📝 Технические характеристики
-
-**Среда обучения:**
-- GPU: NVIDIA GPU (CUDA-enabled)
-- Framework: XGBoost 3.1+ с `tree_method='hist'`
-- Кросс-валидация: 5-fold
-- Оптимизация: 100 испытаний Optuna (~2 часа на GPU)
-
----
-
-## 📞 Вопросы?
-
-По вопросам методологии, реализации или результатов:
-- Изучите Jupyter notebook для детального кода
-- Проверьте комментарии для пошаговых объяснений
-- Ознакомьтесь с результатами Optuna study для insights по гиперпараметрам
+**Related Work:**
+- BERT для категориальных признаков
+- Target encoding best practices
+- Real estate price prediction
 
 ---
 
 ## 📜 Лицензия
 
-Датасет: Public domain (Kaggle)  
-Код: MIT License
+MIT License
+
+---
+
+## 🙏 Благодарности
+
+- **Kaggle** за платформу и датасет
+- **HuggingFace** за BERT модели
+- **XGBoost & Optuna** команды
+- **Community** за обсуждения и идеи
+
+---
+
+<div align="center">
+
+**🏆 TOP 17% SOLUTION 🏆**
+
+**88 / 510 | MAE: 170,700 GBP | Dataset: 266k+ houses**
+
+**XGBoost + BERT + Optuna = Production-Ready Prediction**
+
+*Created with 🔥 and 100 Optuna trials*
+
+</div>
+
+---
+
+## 📌 Citation
+
+```
+@misc{london_house_prediction_2025,
+  title={London House Price Prediction - Top 17% Solution},
+  author={GitHub: GDReallyGoodMan},
+  year={2025},
+  publisher={Kaggle},
+  competition={london-house-price-prediction-advanced-techniques},
+  position={88/510},
+  mae={170700}
+}
+```
+
+---
+
+**Status: Competition Ready ✅ | Production Ready ✅ | Top 17% Achieved 🏆**

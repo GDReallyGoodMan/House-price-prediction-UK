@@ -326,9 +326,9 @@ data['outcode_target'] = data['outcode_target'].fillna(data['price'].mean())
 
 **Competition:**
 - [Kaggle Competition](https://www.kaggle.com/competitions/london-house-price-prediction-advanced-techniques)
-- 
+ 
 **Notebook:**
-- [Kaggle Competition](https://www.kaggle.com/code/gdreallygoodman/xgboost-embeddigs-pca-optuna)
+- [Kaggle Notebook](https://www.kaggle.com/code/gdreallygoodman/xgboost-embeddigs-pca-optuna)
 
 **Libraries:**
 - [XGBoost Docs](https://xgboost.readthedocs.io/)

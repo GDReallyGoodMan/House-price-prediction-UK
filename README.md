@@ -2,7 +2,7 @@
 
 > **Предсказание цен на недвижимость в Лондоне: 88 место из 510 участников**
 
-[![Kaggle](https://img.shields.io/badge/Kaggle-TOP%2017%25-gold)](https://www.kaggle.com/competitions/london-house-price-prediction-advanced-techniques)
+[![Kaggle](https://img.shields.io/badge/Kaggle-TOP%2017%25-gold)](https://www.kaggle.com/code/gdreallygoodman/xgboost-embeddigs-pca-optuna)
 [![MAE](https://img.shields.io/badge/MAE-170.7k-success)]()
 [![Position](https://img.shields.io/badge/Position-88%2F510-brightgreen)]()
 [![Dataset](https://img.shields.io/badge/Dataset-266k+-orange)]()
@@ -326,6 +326,9 @@ data['outcode_target'] = data['outcode_target'].fillna(data['price'].mean())
 
 **Competition:**
 - [Kaggle Competition](https://www.kaggle.com/competitions/london-house-price-prediction-advanced-techniques)
+- 
+**Notebook:**
+- [Kaggle Competition](https://www.kaggle.com/code/gdreallygoodman/xgboost-embeddigs-pca-optuna)
 
 **Libraries:**
 - [XGBoost Docs](https://xgboost.readthedocs.io/)
